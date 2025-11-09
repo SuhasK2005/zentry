@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import Button from "./Button.jsx";
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -6,16 +7,18 @@ const Hero = () => {
   const [isLoading, setisLoading] = useState(true);
   const [loadedVideos, setloadedVideos] = useState(0);
 
-  const totalVideos = 4;
+  const totalVideos = 3;
   const nextVideodRef = useRef(null);
 
   const handleVideoLoad = () => {
     setloadedVideos((prev) => prev + 1);
   };
 
+  const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
+
   const handleMiniVdClick = () => {
     setHasClicked(true);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setCurrentIndex(upcomingVideoIndex);
   };
 
   const getVideoSource = (index) => `videos/hero-${index}.mp4`;
@@ -38,7 +41,7 @@ const Hero = () => {
             >
               <video
                 ref={nextVideodRef}
-                src={getVideoSource(currentIndex + 1)}
+                src={getVideoSource(upcomingVideoIndex)}
                 loop
                 muted
                 id="current-video"
@@ -46,6 +49,41 @@ const Hero = () => {
                 onLoadedData={handleVideoLoad}
               />
             </div>
+          </div>
+          <video
+            ref={nextVideodRef}
+            src={getVideoSource(currentIndex)}
+            loop
+            muted
+            id="next-video"
+            className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
+            onLoadedData={handleVideoLoad}
+          />
+
+          <video
+            src={getVideoSource(
+              currentIndex === totalVideos - 1 ? 1 : currentIndex
+            )}
+            autoPlay
+            loop
+            muted
+            className="absolute left-0 right-0 size-full object-cover object-center"
+            onLoadedData={handleVideoLoad}
+          />
+        </div>
+
+        <h1 className="special-font hero-heading absolute bottom-5 right-5 text-blue-75">
+          G<b>a</b>ming
+        </h1>
+        <div className="absolute left-0 top-0 z-40 size-full">
+          <div className="mt-24 px-5 sm:px-10">
+            <h1 className="special-font hero-heading text-blue-100">
+              redif<b>n</b>e
+            </h1>
+            <p className="mb-5 max-w-64 font-robert-regular text-blue-100">
+              Enter the Metagame Layer <br /> Unleash the Play Economy
+            </p>
+            <Button id/>
           </div>
         </div>
       </div>
